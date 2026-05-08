@@ -1,69 +1,128 @@
-# CodeIgniter 4 Application Starter
+<div align="center">
+  <h1 align="center">Gallery Portfolio</h1>
+  <p align="center">
+    A fully-functional Portfolio & Image Gallery web application built with CodeIgniter 4 and DDEV.
+    <br />
+    <br />
+  </p>
+</div>
 
-## What is CodeIgniter?
+## 📖 About The Project
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+The **Gallery Portfolio** is a lightweight, fast, and feature-rich web application designed to help users upload, manage, and display portfolio items. Built on top of the CodeIgniter 4 framework, this project serves as both a practical gallery tool and a solid foundation for learning modern PHP web development.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+It comes pre-configured with **DDEV**, meaning you can spin up a fully containerized local development environment in seconds without having to manually configure web servers, PHP extensions, or database servers.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+### ✨ Key Features
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+- **Full Gallery CRUD**: Meaningful interface to Add, View, Update, and Delete portfolio images.
+- **Image Upload Management**: Secure handling of file uploads through CodeIgniter's file system, moving items to the `public/uploads` folder.
+- **Containerized Environment**: Out-of-the-box DDEV support for zero-friction local setups.
+- **Modern MVC Architecture**: Follows best practices using CodeIgniter 4's Model-View-Controller pattern.
 
-## Installation & updates
+### 🛠️ Built With
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+- [CodeIgniter 4](https://codeigniter.com/) - PHP Full-Stack Framework
+- [DDEV](https://ddev.com/) - Docker-based local development environment
+- [PHP 8.2+](https://www.php.net/) - Core programming language
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+* [SQLite3](https://www.sqlite.org/) - Lightweight file-based relational database
 
-## Setup
+---
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+## 🚀 Getting Started
 
-## Important Change with index.php
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+### Prerequisites
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+Before you begin, ensure you have the following installed on your system:
 
-**Please** read the user guide for a better explanation of how CI4 works!
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or a compatible Docker provider) running.
+- [DDEV](https://ddev.com/get-started/) installed globally.
 
-## Repository Management
+### Installation & Setup
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+1. **Clone the repository** (if you haven't already):
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+   ```bash
+   git clone <your-repository-url>
+   cd gallery-portfolio
+   ```
 
-## Server Requirements
+2. **Start the DDEV environment:**
+   This command provisions the web server, PHP, and database containers.
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+   ```bash
+   ddev start
+   ```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+3. **Install Composer Dependencies:**
+   Install required PHP packages directly inside the DDEV container.
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+   ```bash
+   ddev composer install
+   ```
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+4. **Environment Configuration:**
+   Copy the example environment file to create your local `.env`.
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+   ```bash
+   cp env .env
+   ```
+
+   **Important Settings in `.env`:**
+   Open the `.env` file and verify/update the following:
+
+   ```env
+   CI_ENVIRONMENT = development
+   app.baseURL = 'https://gallery-portfolio.ddev.site/'
+   ```
+
+   _Note: This project is pre-configured to use **SQLite3** as its database engine in `app/Config/Database.php`. The database file is located at `database/database.sqlite`, so you do not need to configure complex database credentials._
+
+5. **Run Database Migrations:**
+   Set up the database tables required for the gallery.
+
+   ```bash
+   ddev exec php spark migrate
+   ```
+
+6. **View the Application:**
+   Once everything is set up, DDEV will give you a local URL. Usually, it is:
+   [https://gallery-portfolio.ddev.site](https://gallery-portfolio.ddev.site)
+
+---
+
+## 📂 Directory Structure Highlights
+
+Understanding the project structure is crucial for further development:
+
+```text
+gallery-portfolio/
+├── app/
+│   ├── Config/          # Configuration files (Routing, Database, etc.)
+│   ├── Controllers/     # Application logic (e.g., Gallery.php, Home.php)
+│   ├── Database/        # Migrations and Seeds (e.g., Gallery table setup)
+│   ├── Models/          # Database interaction logic (e.g., GalleryModel.php)
+│   └── Views/           # HTML templates (e.g., gallery/index, create, layout/template)
+├── public/              # Document root (index.php, CSS, JS)
+│   └── uploads/         # Uploaded gallery images are stored here
+├── writable/            # Cache, logs, and session data
+├── .ddev/               # DDEV local environment configuration
+└── env                  # Template environment file
+```
+
+---
+
+## ⌨️ Useful Commands
+
+Here are some helpful commands when working with this repository via DDEV:
+
+| Command                    | Description                                        |
+| -------------------------- | -------------------------------------------------- |
+| `ddev start`               | Starts the local development environment.          |
+| `ddev stop`                | Stops the environment without destroying data.     |
+| `ddev exec php spark list` | Lists all available CodeIgniter 4 spark commands.  |
+| `ddev describe`            | Shows database credentials and project URLs.       |
+| `ddev ssh`                 | Opens a terminal session inside the web container. |
